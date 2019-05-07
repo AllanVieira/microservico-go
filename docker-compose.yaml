@@ -1,0 +1,43 @@
+version: '3.3'
+services:
+  api:
+    container_name: 'api'
+    build: './api' 
+    networks:
+      - net   
+    ports:
+      - '8080:8080'
+    volumes:
+      - './api:/go/src/app'
+    depends_on:
+      - db    
+
+  web:
+    container_name: 'web'
+    image: 'nginx:latest'
+    networks:
+      - net
+    ports:
+      - '80:80'
+    volumes:
+      - './web:/usr/share/nginx/html'
+    depends_on:
+      - 'api'
+  
+  db:
+    image: postgres:alpine
+    container_name: db
+    hostname: db
+    restart: "always"
+    networks:
+      - net
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=files
+networks:
+  net:
