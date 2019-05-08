@@ -1,12 +1,8 @@
 FROM golang:1.12.1
 
-RUN go get -u github.com/lib/pq
+WORKDIR /go/src/github.com/allanvieira/microservico-go/api
+ADD . .
 
-RUN mkdir /api
-
-ADD . /api/
-
-WORKDIR /api
-
+RUN go get
 RUN go build -o main .
-CMD ["/api/main"]
+CMD ["go", "run", "main.go"]

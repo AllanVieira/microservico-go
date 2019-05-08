@@ -32,7 +32,7 @@ services:
     networks:
       - net
     ports:
-      - "5432:5432"
+      - "5433:5432"
     expose:
       - "5432"
     environment:
